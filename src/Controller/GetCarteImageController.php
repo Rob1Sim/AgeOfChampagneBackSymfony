@@ -10,7 +10,7 @@ class GetCarteImageController extends \Symfony\Bundle\FrameworkBundle\Controller
     public function __invoke(Carte $data): Response
     {
         $imageName = $data->getContenuImage();
-        $imagePath = '/public/uploads/img/'.$imageName;
+        $imagePath = __DIR__.'/../../public/uploads/img/'.$imageName;
         $image = file_get_contents($imagePath);
 
         return new Response(
