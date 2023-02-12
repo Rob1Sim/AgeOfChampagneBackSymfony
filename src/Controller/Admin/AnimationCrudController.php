@@ -21,7 +21,6 @@ class AnimationCrudController extends AbstractCrudController
         return Animation::class;
     }
 
-
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $this->saveDatas($entityInstance);
@@ -33,14 +32,12 @@ class AnimationCrudController extends AbstractCrudController
         }
 
         if ($vignerons = $this->getContext()->getRequest()->get('Animation')['vigneronsAnim']) {
-            if (is_array($vignerons)){
-                foreach ($vignerons as $v){
+            if (is_array($vignerons)) {
+                foreach ($vignerons as $v) {
                     Vigneron::findVigneron($entityManager, $v)->addAnimation($entityInstance);
-
                 }
-            }else{
+            } else {
                 Vigneron::findVigneron($entityManager, $vignerons)->addAnimation($entityInstance);
-
             }
         }
 
@@ -60,14 +57,12 @@ class AnimationCrudController extends AbstractCrudController
         }
 
         if ($vignerons = $this->getContext()->getRequest()->get('Animation')['vigneronsAnim']) {
-            if (is_array($vignerons)){
-                foreach ($vignerons as $v){
+            if (is_array($vignerons)) {
+                foreach ($vignerons as $v) {
                     Vigneron::findVigneron($entityManager, $v)->addAnimation($entityInstance);
-
                 }
-            }else{
+            } else {
                 Vigneron::findVigneron($entityManager, $vignerons)->addAnimation($entityInstance);
-
             }
         }
 
