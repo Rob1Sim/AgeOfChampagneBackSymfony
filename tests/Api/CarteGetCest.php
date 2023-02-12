@@ -56,4 +56,17 @@ class CarteGetCest
             'vigneronID' => 1,
         ]);
     }
+
+    public function getCarteImage(ApiTester $I): void
+    {
+        $cru = CruFactory::createOne();
+        CarteFactory::createOne([
+            'nom' => 'test',
+            'cru_r' => $cru,
+            'contenuImage' => 'AOC_VINEYARDS-CARDS_FR 43.5x67.5_DAMERY.png',
+        ]);
+
+        $I->sendGet('/api/cartes/1/image');
+        $I->seeResponseCodeIsSuccessful();
+    }
 }
