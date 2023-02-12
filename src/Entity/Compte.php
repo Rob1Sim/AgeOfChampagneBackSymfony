@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompteRepository::class)]
@@ -51,18 +52,21 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups('set_User')]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank]
+    #[Groups(['get_User', 'set_User'])]
     private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
+    #[Groups(['get_User', 'set_User'])]
     private ?string $login = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $is_verified = false;
+    private bool $is_verified = false;
 
     #[ORM\ManyToMany(targetEntity: Carte::class, mappedBy: 'compte')]
     private Collection $cartes;
