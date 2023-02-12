@@ -83,7 +83,7 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "start": [
-            "\"Composer\\\\Config::disableProcessTimeout\""
+            "Composer\\Config::disableProcessTimeout"
             ,"symfony serve"
         ],
         "test:cs": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
