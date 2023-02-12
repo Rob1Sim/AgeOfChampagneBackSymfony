@@ -21,8 +21,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new Get(),
-        new Put(),
-        new Patch(),
+        new Put(
+            normalizationContext: ['groups' => ['get_User']],
+            denormalizationContext: ['groups' => ['set_User']],
+        ),
+        new Patch(
+            normalizationContext: ['groups' => ['get_User']],
+            denormalizationContext: ['groups' => ['set_User']],
+        ),
+
     ]
 )]
 class Compte implements UserInterface, PasswordAuthenticatedUserInterface
