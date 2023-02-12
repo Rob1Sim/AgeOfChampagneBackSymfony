@@ -16,20 +16,18 @@ class PartenaireCrudController extends AbstractCrudController
     {
         return Partenaire::class;
     }
+
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         if ($vignerons = $this->getContext()->getRequest()->get('Partenaire')['vigneronsPart']) {
-            if (is_array($vignerons)){
-
-                foreach ($vignerons as $v){
-                    //TODO : Enlever les vignerons en trop
+            if (is_array($vignerons)) {
+                foreach ($vignerons as $v) {
+                    // TODO : Enlever les vignerons en trop
                     $vignronClass = Vigneron::findVigneron($entityManager, $v);
                     $vignronClass->addPartenaire($entityInstance);
-
                 }
-            }else{
+            } else {
                 Vigneron::findVigneron($entityManager, $vignerons)->addPartenaire($entityInstance);
-
             }
         }
 
@@ -41,14 +39,12 @@ class PartenaireCrudController extends AbstractCrudController
         // N'est appelé que lorsque on ajoute une donnée et donc non pendant la modification
 
         if ($vignerons = $this->getContext()->getRequest()->get('Partenaire')['vigneronsPart']) {
-            if (is_array($vignerons)){
-                foreach ($vignerons as $v){
+            if (is_array($vignerons)) {
+                foreach ($vignerons as $v) {
                     Vigneron::findVigneron($entityManager, $v)->addPartenaire($entityInstance);
-
                 }
-            }else{
+            } else {
                 Vigneron::findVigneron($entityManager, $vignerons)->addPartenaire($entityInstance);
-
             }
         }
 

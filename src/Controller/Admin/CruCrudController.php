@@ -10,7 +10,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use PhpParser\Node\Expr\Array_;
 
 class CruCrudController extends AbstractCrudController
 {
@@ -21,9 +20,8 @@ class CruCrudController extends AbstractCrudController
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
-
         if ($vignerons = $this->getContext()->getRequest()->get('Cru')['vigneronsCru']) {
-            $entityInstance->addVigneronsCru(Vigneron::findVigneron($entityManager, $vignerons)) ;
+            $entityInstance->addVigneronsCru(Vigneron::findVigneron($entityManager, $vignerons));
         }
 
         parent::updateEntity($entityManager, $entityInstance);
@@ -35,7 +33,7 @@ class CruCrudController extends AbstractCrudController
 
         dump($this->getContext()->getRequest()->get('Cru'));
         if ($vignerons = $this->getContext()->getRequest()->get('Cru')['vigneronsCru']) {
-            $entityInstance->addVigneronsCru(Vigneron::findVigneron($entityManager, $vignerons)) ;
+            $entityInstance->addVigneronsCru(Vigneron::findVigneron($entityManager, $vignerons));
         }
 
         parent::persistEntity($entityManager, $entityInstance);
@@ -57,7 +55,6 @@ class CruCrudController extends AbstractCrudController
                     return $ep->createQueryBuilder('c')->orderBy('c.nom', 'ASC');
                 })
                 ->formatValue(function ($value, $entity) {
-
                     if (null != $entity->getVigneronsCru()[0]) {
                         // Affiche ... si il y a plus d'un vignerons
                         if (count($entity->getVigneronsCru()) > 1) {
@@ -72,11 +69,10 @@ class CruCrudController extends AbstractCrudController
         ];
     }
 
-    /**
+    /*
      * @param EntityManagerInterface $entityManager
      * @param mixed $idVigneron
      * @param $entityInstance
      * @return void
      */
-
 }

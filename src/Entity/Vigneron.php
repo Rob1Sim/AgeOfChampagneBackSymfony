@@ -243,9 +243,10 @@ class Vigneron
     public static function findVigneron(EntityManagerInterface $entityManager, mixed $idVigneron): Vigneron
     {
         $query = $entityManager->getRepository(Vigneron::class)->createQueryBuilder('v')
-            ->where("v.id = ?1")
+            ->where('v.id = ?1')
             ->setParameter(1, $idVigneron);
         $vigneronClass = $query->getQuery()->getResult();
+
         return $vigneronClass[0];
     }
 }

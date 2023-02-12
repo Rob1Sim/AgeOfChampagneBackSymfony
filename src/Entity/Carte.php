@@ -2,40 +2,63 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\CarteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: CarteRepository::class)]
+#[ApiResource(operations: [
+    new Get(
+        normalizationContext: ['groups' => 'get_carte']
+        // security: "is_granted('ROLE_USER')"
+    ),
+    new GetCollection(
+        normalizationContext: ['groups' => 'get_carte']
+        // security: "is_granted('ROLE_USER')"
+    ),
+])]
+#[ApiFilter(SearchFilter::class, properties: ['nom' => 'partial'])]
+#[ApiFilter(OrderFilter::class, properties: ['nom' => 'ASC',  'type' => 'ASC'], arguments: ['orderParameterName' => 'order'])]
 class Carte
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_carte')]
     private ?int $id = null;
 
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $region = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $latitude = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $longitude = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $superficie = null;
-
-    #[ORM\Column(length: 255,nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $cru = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $contenuImage = null;
 
@@ -55,6 +78,7 @@ class Carte
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('get_carte')]
     private ?Cru $cru_r = null;
 
     public function getId(): ?int
@@ -214,5 +238,11 @@ class Carte
         $this->cru_r = $cru_r;
 
         return $this;
+    }
+
+    #[Groups('get_carte')]
+    public function getVigneronID(): int
+    {
+        return $this->vignerons->getId();
     }
 }
