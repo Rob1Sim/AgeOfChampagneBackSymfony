@@ -43,7 +43,6 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups('set_User')]
     private ?string $email = null;
 
     #[ORM\Column]
