@@ -57,6 +57,55 @@ class CarteGetCest
         ]);
     }
 
+    public function getCarteCollection(ApiTester $I): void
+    {
+        $vignerons = VigneronFactory::createOne();
+        $cru = CruFactory::createOne();
+        CarteFactory::createOne([
+            'nom' => 'test',
+            'type' => 'test',
+            'region' => 'test',
+            'latitude' => 1.2,
+            'longitude' => 1.3,
+            'superficie' => 1.4,
+            'cru_r' => $cru,
+            'vignerons' => $vignerons,
+        ]);
+        CarteFactory::createOne([
+            'nom' => 'test',
+            'type' => 'test',
+            'region' => 'test',
+            'latitude' => 1.2,
+            'longitude' => 1.3,
+            'superficie' => 1.4,
+            'cru_r' => $cru,
+            'vignerons' => $vignerons,
+        ]);
+        CarteFactory::createOne([
+            'nom' => 'test',
+            'type' => 'test',
+            'region' => 'test',
+            'latitude' => 1.2,
+            'longitude' => 1.3,
+            'superficie' => 1.4,
+            'cru_r' => $cru,
+            'vignerons' => $vignerons,
+        ]);
+
+        $I->sendGet('/api/cartes');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsACollection(Carte::class, '/api/cartes', [
+            'hydra:member' => 'array',
+            'hydra:totalItems' => 'integer',
+        ]);
+        $jsonResponse = $I->grabJsonResponse();
+        $I->assertSame(3, $jsonResponse['hydra:totalItems']);
+        $I->assertCount(3, $jsonResponse['hydra:member']);
+    }
+
     public function getCarteImage(ApiTester $I): void
     {
         $cru = CruFactory::createOne();
