@@ -2,6 +2,7 @@
 
 namespace App\Serialization\Denormalizer;
 
+use App\Entity\Compte;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
@@ -21,5 +22,15 @@ class UserDenormalizer implements ContextAwareDenormalizerInterface, Denormalize
         $this->passwordHasher = $passwordHasher;
         $this->security = $security;
     }
+
+    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
+    {
+        if (!(isset($context[self::ALREADY_CALLED])) && Compte::class === $type) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }
