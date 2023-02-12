@@ -9,42 +9,51 @@ use App\Repository\CarteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CarteRepository::class)]
 #[ApiResource(operations: [
     new Get(
+        normalizationContext: ['groups' => 'get_carte']
         // security: "is_granted('ROLE_USER')"
     ),
-    new GetCollection(),
+    new GetCollection(
+        normalizationContext: ['groups' => 'get_carte']
+        // security: "is_granted('ROLE_USER')"
+    ),
 ])]
 class Carte
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_carte')]
     private ?int $id = null;
 
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $region = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $latitude = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $longitude = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $superficie = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cru = null;
-
+    #[Groups('get_carte')]
     #[ORM\Column(length: 255)]
     private ?string $contenuImage = null;
 
@@ -223,5 +232,11 @@ class Carte
         $this->cru_r = $cru_r;
 
         return $this;
+    }
+
+    #[Groups('get_carte')]
+    public function getVigneronID(): int
+    {
+        return $this->vignerons->getId();
     }
 }
