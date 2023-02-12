@@ -43,6 +43,7 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
+    #[Groups('set_User')]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -57,7 +58,7 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank]
-    #[Groups(['get_User', 'set_User'])]
+    #[Groups(['set_User'])]
     private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 50)]
