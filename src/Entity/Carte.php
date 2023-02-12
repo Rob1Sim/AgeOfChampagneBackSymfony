@@ -50,7 +50,6 @@ class Carte
     #[Groups('get_carte')]
     #[ORM\Column]
     private ?float $superficie = null;
-    #[Groups('get_carte')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cru = null;
     #[Groups('get_carte')]
@@ -73,6 +72,7 @@ class Carte
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('get_carte')]
     private ?Cru $cru_r = null;
 
     public function getId(): ?int
