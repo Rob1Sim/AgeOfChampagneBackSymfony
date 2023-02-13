@@ -9,6 +9,7 @@ use App\Repository\PartenaireRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PartenaireRepository::class)]
 #[ApiResource(operations: [
@@ -26,12 +27,15 @@ class Partenaire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_carte')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_carte')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_carte')]
     private ?string $prenom = null;
 
     #[ORM\ManyToMany(targetEntity: Vigneron::class, mappedBy: 'partenaire')]
