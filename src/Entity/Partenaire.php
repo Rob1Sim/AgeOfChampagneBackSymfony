@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: PartenaireRepository::class)]
 #[ApiResource(operations: [
     new Get(
+        normalizationContext: ['groups' => 'get_carte']
     // security: "is_granted('ROLE_USER')"
     ),
 ])]
