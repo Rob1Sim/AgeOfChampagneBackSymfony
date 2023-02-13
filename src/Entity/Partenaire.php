@@ -14,11 +14,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: PartenaireRepository::class)]
 #[ApiResource(operations: [
     new Get(
-        normalizationContext: ['groups' => 'get_carte']
+        normalizationContext: ['groups' => 'get_partenaire']
         // security: "is_granted('ROLE_USER')"
     ),
     new GetCollection(
-        normalizationContext: ['groups' => 'get_carte']
+        normalizationContext: ['groups' => 'get_partenaire']
         // security: "is_granted('ROLE_USER')"
     ),
 ])]
@@ -27,15 +27,15 @@ class Partenaire
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('get_carte')]
+    #[Groups('get_partenaire')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('get_carte')]
+    #[Groups('get_partenaire')]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('get_carte')]
+    #[Groups('get_partenaire')]
     private ?string $prenom = null;
 
     #[ORM\ManyToMany(targetEntity: Vigneron::class, mappedBy: 'partenaire')]
