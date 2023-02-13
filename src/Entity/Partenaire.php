@@ -19,7 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ),
     new GetCollection(
         normalizationContext: ['groups' => 'get_carte']
-    // security: "is_granted('ROLE_USER')"
+        // security: "is_granted('ROLE_USER')"
     ),
 ])]
 class Partenaire
