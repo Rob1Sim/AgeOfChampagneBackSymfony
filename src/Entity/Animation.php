@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -21,6 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         normalizationContext: ['groups' => 'get_Animation']
     ),
 ])]
+#[ApiFilter(SearchFilter::class, properties: ['nom' => 'partial'])]
 class Animation
 {
     #[ORM\Id]
