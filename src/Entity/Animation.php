@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -24,6 +25,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ),
 ])]
 #[ApiFilter(SearchFilter::class, properties: ['nom' => 'partial'])]
+#[ApiFilter(OrderFilter::class, properties: ['nom' => 'ASC'])]
 class Animation
 {
     #[ORM\Id]
