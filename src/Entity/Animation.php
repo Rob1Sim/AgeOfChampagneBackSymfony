@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: AnimationRepository::class)]
 #[ApiResource(operations: [
@@ -25,21 +26,27 @@ class Animation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_Animation')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_Animation')]
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_Animation')]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('get_Animation')]
     private ?\DateTimeInterface $horaireDeb = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups('get_Animation')]
     private ?\DateTimeInterface $horaireFin = null;
 
     #[ORM\Column]
+    #[Groups('get_Animation')]
     private ?float $prix = null;
 
     #[ORM\ManyToMany(targetEntity: Vigneron::class, mappedBy: 'animation')]
@@ -49,8 +56,8 @@ class Animation
     private Collection $partenaires;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_Animation')]
     private ?string $contenuImage = null;
-
 
     public function __construct()
     {
