@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\AnimationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,6 +12,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnimationRepository::class)]
+#[ApiResource(operations: [
+    new Get(
+        normalizationContext: ['groups' => 'get_Animation']
+    ),
+    new GetCollection(
+        normalizationContext: ['groups' => 'get_Animation']
+    ),
+])]
 class Animation
 {
     #[ORM\Id]
