@@ -2,12 +2,24 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+#[ApiResource(operations: [
+    new Get(
+        normalizationContext: ['groups' => 'get_Produit']
+    ),
+    new GetCollection(
+        normalizationContext: ['groups' => 'get_Produit']
+    ),
+])]
+
 class Produit
 {
     #[ORM\Id]
