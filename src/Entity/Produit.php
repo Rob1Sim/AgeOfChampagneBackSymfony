@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -20,7 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         normalizationContext: ['groups' => 'get_Produit']
     ),
 ])]
-
+#[ApiFilter(SearchFilter::class, properties: ['libelle' => 'partial'])]
 class Produit
 {
     #[ORM\Id]
