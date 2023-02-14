@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -25,6 +26,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 ])]
 #[ApiFilter(SearchFilter::class, properties: ['libelle' => 'partial'])]
 #[ApiFilter(OrderFilter::class, properties: ['libelle' => 'ASC'])]
+#[ApiFilter(RangeFilter::class, properties: ['prix'])]
 class Produit
 {
     #[ORM\Id]
