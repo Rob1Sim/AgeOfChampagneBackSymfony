@@ -9,6 +9,7 @@ use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 #[ApiResource(operations: [
@@ -25,12 +26,15 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_Produit')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_Produit')]
     private ?string $libelle = null;
 
     #[ORM\Column]
+    #[Groups('get_Produit')]
     private ?float $prix = null;
 
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Vigneron::class)]
