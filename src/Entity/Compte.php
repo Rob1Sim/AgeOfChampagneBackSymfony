@@ -25,11 +25,14 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Put(
             normalizationContext: ['groups' => ['get_User']],
             denormalizationContext: ['groups' => ['set_User']],
+            security: "is_granted('ROLE_USER') and object == user",
         ),
         new Patch(
             normalizationContext: ['groups' => ['get_User']],
             denormalizationContext: ['groups' => ['set_User']],
+            security: "is_granted('ROLE_USER') and object == user",
         ),
+
 
     ]
 )]
@@ -62,7 +65,7 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
-    #[Groups(['get_User', 'set_User'])]
+    #[Groups(['set_User'])]
     private ?string $login = null;
 
     #[ORM\Column(type: 'boolean')]
