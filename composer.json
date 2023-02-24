@@ -89,12 +89,13 @@
         "test:cs": "php vendor/bin/php-cs-fixer fix --dry-run --diff",
         "fix:cs": "php vendor/bin/php-cs-fixer fix",
         "test:codecept": [
-            "php bin/console doctrine:database:drop --force --quiet --env=test",
-            "php bin/console doctrine:database:create --quiet --env=test",
-            "php bin/console doctrine:schema:create --quiet --env=test",
-            "php vendor/bin/codecept run"
+            "php vendor/bin/codecept clean",
+            "APP_ENV=test php bin/console doctrine:database:drop --force",
+            "APP_ENV=test php bin/console doctrine:database:create",
+            "APP_ENV=test php bin/console doctrine:schema:create --quiet",
+            "SYMFONY_DEPRECATIONS_HELPER=weak php vendor/bin/codecept run --no-artifacts"
         ],
-        "test": ["php vendor/bin/php-cs-fixer fix --dry-run --diff","php vendor/bin/codecept run"],
+        "test": ["@test:cs","@test:codecept"],
         "db": [
             "php bin/console doctrine:database:drop --force --if-exists",
             "php bin/console doctrine:database:create",
@@ -128,6 +129,7 @@
         "codeception/codeception": "^5.0",
         "codeception/module-asserts": "^3.0",
         "codeception/module-doctrine2": "^3.0",
+        "codeception/module-rest": "^3.3",
         "codeception/module-symfony": "^3.1",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "phpunit/phpunit": "^9.5",
