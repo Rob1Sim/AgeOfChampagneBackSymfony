@@ -12,7 +12,7 @@ class GetAvatarVigneronController extends AbstractController
     public function __invoke(Vigneron $data): Response
     {
         $imageName = $data->getContenuImage();
-        $imagePath = '/public/uploads/img/vigneron/'.$imageName;
+        $imagePath = __DIR__.'/../../public/uploads/img/vigneron/'.$imageName;
         $image = file_get_contents($imagePath);
 
         return new Response(
