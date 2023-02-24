@@ -8,9 +8,7 @@
               rel="stylesheet">
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
 
-        <link rel="stylesheet" href="style.css">
 
-        <link href="style.css" rel="stylesheet">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset("image/favicon/apple-touch-icon.png") }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset("image/favicon/favicon-32x32.png") }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset("image/favicon/favicon-16x16.png") }}">
@@ -29,98 +27,6 @@
 
 
     </head>
-    <nav>
-        <ul class="nav-link">
-            <div class="nav-logo-link">
-                <li class="nav-title">
-                    <a  href="{{ path('app_carte') }}"><img src="{{ asset('image/favicon/favicon-32x32.png') }}"></a>
-                </li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li class="nav-item no-dropdown">
-                        <a href = "{{ path('app_carte') }}" >Mes cartes</a>
-                    </li>
-                    <li class="no-dropdown">
-                        <a href = "{{ path('app_vigneron') }}" >Les vignerons partenaires</a>
-                    </li>
-                    <li class="no-dropdown">
-                        <a href = "{{ path('app_animation') }}" >Les animations</a>
-                    </li>
-                {%  endif %}
-            </div>
-            <div class="dropdown-container">
-                <button class="btn-dropdown">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-                <div class="with-dropdown">
-
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        <div>
-                            <a href = "{{ path('app_carte') }}" >Mes cartes</a>
-                        </div>
-                        <div>
-                            <a href = "{{ path('app_vigneron') }}" >Les vignerons partenaires</a>
-                        </div>
-                        <div>
-                            <a href = "{{ path('app_vigneron') }}" >Les animations</a>
-                        </div>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <div>
-                                <a href="{{ path('admin') }}">Panel administrateur</a>
-                            </div>
-                        {% endif %}
-                        <div>
-                            <a href="{{ path('app_profil',{'id': app.user.id}) }}">Mon profil</a>
-                        </div>
-                        <div>
-                            <a href="{{ path('app_logout') }}">Déconnexion</a>
-                        </div>
-                    {% else %}
-                        <a class="btn-inscription" href="{{ path('app_register') }}">Inscription</a>
-                        <a href="{{ path('app_login') }}">Connexion</a>
-                    {% endif %}
-
-                </div>
-            </div>
-            <div class="nav-login-lang">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <li class="no-dropdown">
-                            <a href="{{ path('admin') }}">Panel administrateur</a>
-                        </li>
-                    {% endif %}
-                    <li class="no-dropdown" >
-                        <a href="{{ path('app_profil',{'id': app.user.id}) }}">Mon profil</a>
-                    </li>
-                    <li class="no-dropdown">
-                        <a href="{{ path('app_logout') }}">Déconnexion</a>
-                    </li>
-                {% else %}
-                    <li class="no-dropdown">
-                        <a href="{{ path('app_login') }}">Connexion</a>
-                    </li>
-                    <li class="no-dropdown">
-                        <a class="btn-inscription" href="{{ path('app_register') }}">Inscription</a>
-                    </li>
-
-                {% endif %}
-                <li class="dropdown">
-                    <button class="btn-flag">
-                        <img class="btn-img" src="{{ asset('image/flags/france.png') }}">
-                    </button>
-                    <div class="dropdown-flags">
-                        <button class="btn-flag-fr">
-                            <img class="btn-img-fr" src="{{ asset('image/flags/france.png') }}">
-                        </button>
-                        <button class="btn-flag-us">
-                            <img class="btn-img-us" src="{{ asset('image/flags/united-states.png') }}">
-                        </button>
-                    </div>
-
-                </li>
-            </div>
-
-        </ul>
-    </nav>
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
