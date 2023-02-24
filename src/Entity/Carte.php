@@ -2,18 +2,18 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\GetCarteImageController;
 use App\Repository\CarteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: CarteRepository::class)]
 #[ApiResource(operations: [
@@ -23,6 +23,11 @@ use Doctrine\DBAL\Types\Types;
     ),
     new GetCollection(
         normalizationContext: ['groups' => 'get_carte']
+        // security: "is_granted('ROLE_USER')"
+    ),
+    new Get(
+        uriTemplate: 'cartes/{id}/image',
+        controller: GetCarteImageController::class,
         // security: "is_granted('ROLE_USER')"
     ),
 ])]
