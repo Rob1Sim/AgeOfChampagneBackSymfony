@@ -2,18 +2,25 @@
 
 namespace App\Controller;
 
+use App\Entity\Vigneron;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class GetAvatarVigneronController extends AbstractController
 {
-    #[Route('/get/avatar/vigneron', name: 'app_get_avatar_vigneron')]
-    public function index(): JsonResponse
+    public function __invoke(Vigneron $data): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/GetAvatarVigneronController.php',
-        ]);
+        $imageName = $data->getContenuImage();
+        $imagePath = '/public/uploads/img/vigneron/'.$imageName;
+        $image = file_get_contents($imagePath);
+
+        return new Response(
+            $image,
+            Response::HTTP_OK,
+            ['Content-Type' => 'image/png']
+        );
+
     }
+
 }
