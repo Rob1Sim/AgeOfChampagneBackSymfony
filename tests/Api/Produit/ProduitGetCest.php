@@ -2,8 +2,8 @@
 
 namespace App\Tests\Api\Produit;
 
-use App\Entity\Animation;
-use App\Factory\AnimationFactory;
+use App\Entity\Produit;
+use App\Factory\ProduitFactory;
 use App\Tests\ApiTester;
 
 class ProduitGetCest
