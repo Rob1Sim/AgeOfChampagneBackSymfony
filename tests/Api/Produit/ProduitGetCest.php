@@ -16,4 +16,22 @@ class ProduitGetCest
             'prix' => 'float',
         ];
     }
+
+    public function getProduitByID(ApiTester $I): void
+    {
+        ProduitFactory::createOne([
+            'libelle' => 'truc',
+            'prix' => 19.6,
+        ]);
+
+        $I->sendGet('/api/produits/1');
+
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsAnEntity(Produit::class, '/api/produits/1');
+        $I->seeResponseIsAnItem(self::expectedProperties(), [
+            'libelle' => 'truc',
+            'prix' => 19.6,
+        ]);
+    }
 }
