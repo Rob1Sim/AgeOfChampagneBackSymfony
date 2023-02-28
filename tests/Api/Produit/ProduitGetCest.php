@@ -8,4 +8,12 @@ use App\Tests\ApiTester;
 
 class ProduitGetCest
 {
+    protected static function expectedProperties(): array
+    {
+        return [
+            'id' => 'integer',
+            'libelle' => 'string',
+            'prix' => 'float',
+        ];
+    }
 }
