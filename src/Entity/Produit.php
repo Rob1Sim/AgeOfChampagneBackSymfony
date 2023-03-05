@@ -2,23 +2,45 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\ProduitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
+#[ApiResource(operations: [
+    new Get(
+        normalizationContext: ['groups' => 'get_Produit']
+    ),
+    new GetCollection(
+        normalizationContext: ['groups' => 'get_Produit']
+    ),
+])]
+#[ApiFilter(SearchFilter::class, properties: ['libelle' => 'partial'])]
+#[ApiFilter(OrderFilter::class, properties: ['libelle' => 'ASC'])]
+#[ApiFilter(RangeFilter::class, properties: ['prix'])]
 class Produit
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_Produit')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_Produit')]
     private ?string $libelle = null;
 
     #[ORM\Column]
+    #[Groups('get_Produit')]
     private ?float $prix = null;
 
     #[ORM\OneToMany(mappedBy: 'produit', targetEntity: Vigneron::class)]
