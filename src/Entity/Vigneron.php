@@ -2,13 +2,35 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\GetAvatarVigneronController;
 use App\Repository\VigneronRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VigneronRepository::class)]
+#[ApiResource(
+    operations: [
+        new Get(
+            normalizationContext: ['groups' => 'get_vigneron'],
+            security: "is_granted('ROLE_USER')",
+        ),
+        new GetCollection(
+            normalizationContext: ['groups' => 'get_vigneron'],
+            security: "is_granted('ROLE_USER')",
+        ),
+        new Get(
+            uriTemplate: 'cartes/{id}/image',
+            controller: GetAvatarVigneronController::class,
+            security: "is_granted('ROLE_USER')",
+        ),
+    ]
+)]
 class Vigneron
 {
     #[ORM\Id]
@@ -17,18 +39,23 @@ class Vigneron
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get_vigneron'])]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get_vigneron'])]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get_vigneron'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 5)]
+    #[Groups(['get_vigneron'])]
     private ?string $code_postal = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get_vigneron'])]
     private ?string $ville = null;
 
     #[ORM\OneToMany(mappedBy: 'vignerons', targetEntity: Carte::class)]
