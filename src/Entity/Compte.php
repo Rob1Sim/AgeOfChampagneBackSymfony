@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;
+use App\Controller\GetMeController;
 use App\Repository\CompteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,8 +34,22 @@ use Symfony\Component\Validator\Constraints as Assert;
             denormalizationContext: ['groups' => ['set_User']],
             security: "is_granted('ROLE_USER') and object == user",
         ),
-
-
+        new GetCollection(
+            uriTemplate: '/me',
+            controller: GetMeController::class,
+            openapiContext: [
+                'summary' => "Renvoie les données de l'utlisateur courrant",
+                'description' => "Renvoie les données de l'utilisateur courrant",
+                'responses' => [
+                    '200' => ['description' => 'Utilisateur connecté'],
+                    '401' => ['description' => 'Utilisateur non connecté'],
+                    ],
+            ],
+            paginationEnabled: false,
+            normalizationContext: ['groups' => ['get_Me', 'get_User']],
+            security: "is_granted('ROLE_USER')",
+            securityMessage: "Vous n'êtes pas connecté"
+        ),
     ]
 )]
 class Compte implements UserInterface, PasswordAuthenticatedUserInterface
@@ -41,14 +57,17 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['get_User'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
+    #[Groups(['get_User'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['get_User'])]
     private array $roles = [];
 
     /**
@@ -60,18 +79,20 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank]
-    #[Groups(['set_User'])]
+    #[Groups(['set_User', 'get_User'])]
     private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
-    #[Groups(['set_User'])]
+    #[Groups(['set_User', 'get_User'])]
     private ?string $login = null;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['get_User'])]
     private bool $is_verified = false;
 
     #[ORM\ManyToMany(targetEntity: Carte::class, mappedBy: 'compte')]
+    #[Groups(['get_User'])]
     private Collection $cartes;
 
     public function __construct()
