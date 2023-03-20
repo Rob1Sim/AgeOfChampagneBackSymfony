@@ -33,9 +33,11 @@ class Cru
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get_Cru')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get_Cru')]
     private ?string $libelle = null;
 
     #[ORM\Column(length: 255)]
@@ -43,7 +45,6 @@ class Cru
     private ?string $horaire = null;
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
-    #[Groups('get_Cru')]
     private $image = null;
 
     #[ORM\Column(length: 255)]
