@@ -62,9 +62,11 @@ class Vigneron
     private Collection $cartes;
 
     #[ORM\ManyToOne(inversedBy: 'vigneronsCru')]
+    #[Groups(['get_vigneron'])]
     private ?Cru $cru = null;
 
     #[ORM\ManyToOne(inversedBy: 'vigneronsProd')]
+    #[Groups(['get_vigneron'])]
     private ?Produit $produit = null;
 
     #[ORM\ManyToMany(targetEntity: Partenaire::class, inversedBy: 'vigneronsPart')]
@@ -74,6 +76,7 @@ class Vigneron
     private Collection $animation;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['get_vigneron'])]
     private ?string $contenuImage = null;
 
     public function __construct()
