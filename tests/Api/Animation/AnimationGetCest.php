@@ -47,6 +47,24 @@ class AnimationGetCest
         ]);
     }
 
+    public function getAnimationCollection(ApiTester $I): void
+    {
+        AnimationFactory::createMany(3);
+
+        $I->sendGet('/api/animations');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsACollection(Animation::class, '/api/animations', [
+            'hydra:member' => 'array',
+            'hydra:totalItems' => 'integer',
+        ]);
+        $jsonResponse = $I->grabJsonResponse();
+        $I->assertSame(3, $jsonResponse['hydra:totalItems']);
+        $I->assertCount(3, $jsonResponse['hydra:member']);
+    }
+
     public function getAnimationImage(ApiTester $I): void
     {
         AnimationFactory::createOne([
