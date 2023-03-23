@@ -57,7 +57,53 @@ class VigneronGetCest
         $I->seeResponseIsAnItem(self::expectedProperties(), $dataGet);
     }
 
-    public function getCarteImage(ApiTester $I): void
+    public function getVigneronCollection(ApiTester $I): void
+    {
+        $produit = ProduitFactory::createOne();
+        $cru = CruFactory::createOne();
+        VigneronFactory::createOne([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'adresse' => 'test',
+            'code_postal' => 'test',
+            'ville' => 'test',
+            'cru' => $cru,
+            'produit' => $produit,
+        ]);
+        VigneronFactory::createOne([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'adresse' => 'test',
+            'code_postal' => 'test',
+            'ville' => 'test',
+            'cru' => $cru,
+            'produit' => $produit,
+        ]);
+        VigneronFactory::createOne([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'adresse' => 'test',
+            'code_postal' => 'test',
+            'ville' => 'test',
+            'cru' => $cru,
+            'produit' => $produit,
+        ]);
+
+        $I->sendGet('/api/vignerons');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsACollection(Vigneron::class, '/api/vignerons', [
+            'hydra:member' => 'array',
+            'hydra:totalItems' => 'integer',
+        ]);
+        $jsonResponse = $I->grabJsonResponse();
+        $I->assertSame(3, $jsonResponse['hydra:totalItems']);
+        $I->assertCount(3, $jsonResponse['hydra:member']);
+    }
+
+    public function getVigneronImage(ApiTester $I): void
     {
         $produit = ProduitFactory::createOne();
         $cru = CruFactory::createOne();
