@@ -18,16 +18,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(
             normalizationContext: ['groups' => 'get_vigneron'],
-            security: "is_granted('ROLE_USER')",
+            // security: "is_granted('ROLE_USER')",
         ),
         new GetCollection(
             normalizationContext: ['groups' => 'get_vigneron'],
-            security: "is_granted('ROLE_USER')",
+            // security: "is_granted('ROLE_USER')",
         ),
         new Get(
-            uriTemplate: 'cartes/{id}/image',
+            uriTemplate: 'vignerons/{id}/image',
             controller: GetAvatarVigneronController::class,
-            security: "is_granted('ROLE_USER')",
+            // security: "is_granted('ROLE_USER')",
         ),
     ]
 )]
@@ -36,6 +36,7 @@ class Vigneron
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['get_vigneron'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -62,11 +63,9 @@ class Vigneron
     private Collection $cartes;
 
     #[ORM\ManyToOne(inversedBy: 'vigneronsCru')]
-    #[Groups(['get_vigneron'])]
     private ?Cru $cru = null;
 
     #[ORM\ManyToOne(inversedBy: 'vigneronsProd')]
-    #[Groups(['get_vigneron'])]
     private ?Produit $produit = null;
 
     #[ORM\ManyToMany(targetEntity: Partenaire::class, inversedBy: 'vigneronsPart')]
@@ -278,5 +277,17 @@ class Vigneron
         $vigneronClass = $query->getQuery()->getResult();
 
         return $vigneronClass[0];
+    }
+
+    #[Groups(['get_vigneron'])]
+    public function getCruID(): int
+    {
+        return $this->cru->getId();
+    }
+
+    #[Groups(['get_vigneron'])]
+    public function getProduitID(): int
+    {
+        return $this->produit->getId();
     }
 }
