@@ -39,4 +39,22 @@ class CruGetCest
         $I->seeResponseIsAnEntity(Cru::class, '/api/crus/1');
         $I->seeResponseIsAnItem(self::expectedProperties(), $dataGet);
     }
+
+    public function getCruCollection(ApiTester $I): void
+    {
+        CruFactory::createMany(3);
+
+        $I->sendGet('/api/crus');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsACollection(Cru::class, '/api/crus', [
+            'hydra:member' => 'array',
+            'hydra:totalItems' => 'integer',
+        ]);
+        $jsonResponse = $I->grabJsonResponse();
+        $I->assertSame(3, $jsonResponse['hydra:totalItems']);
+        $I->assertCount(3, $jsonResponse['hydra:member']);
+    }
 }

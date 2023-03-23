@@ -19,9 +19,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(operations: [
     new Get(
         normalizationContext: ['groups' => 'get_Produit']
+        // security: "is_granted('ROLE_USER')"
     ),
     new GetCollection(
         normalizationContext: ['groups' => 'get_Produit']
+        // security: "is_granted('ROLE_USER')"
     ),
 ])]
 #[ApiFilter(SearchFilter::class, properties: ['libelle' => 'partial'])]

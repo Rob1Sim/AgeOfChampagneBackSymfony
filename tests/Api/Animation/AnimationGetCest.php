@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Animation;
+namespace App\Tests\Api\Animation;
 
 use App\Entity\Animation;
 use App\Factory\AnimationFactory;
@@ -31,7 +31,6 @@ class AnimationGetCest
             'prix' => 19.6,
             'horaireDeb' => $horaireDeb,
             'horaireFin' => $horaireFin,
-            'contenuImage' => 'feur',
         ]);
 
         $I->sendGet('/api/animations/1');
@@ -45,7 +44,35 @@ class AnimationGetCest
             'prix' => 19.6,
             'horaireDeb' => null,
             'horaireFin' => null,
-            'contenuImage' => 'feur',
         ]);
+    }
+
+    public function getAnimationCollection(ApiTester $I): void
+    {
+        AnimationFactory::createMany(3);
+
+        $I->sendGet('/api/animations');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsACollection(Animation::class, '/api/animations', [
+            'hydra:member' => 'array',
+            'hydra:totalItems' => 'integer',
+        ]);
+        $jsonResponse = $I->grabJsonResponse();
+        $I->assertSame(3, $jsonResponse['hydra:totalItems']);
+        $I->assertCount(3, $jsonResponse['hydra:member']);
+    }
+
+    public function getAnimationImage(ApiTester $I): void
+    {
+        AnimationFactory::createOne([
+            'nom' => 'test',
+            'contenuImage' => 'noanimation.png',
+        ]);
+
+        $I->sendGet('/api/animations/1/image');
+        $I->seeResponseCodeIsSuccessful();
     }
 }

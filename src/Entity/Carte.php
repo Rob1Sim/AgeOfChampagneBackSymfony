@@ -219,6 +219,8 @@ class Carte
     public function removeCompte(Compte $compte): self
     {
         $this->compte->removeElement($compte);
+
+        return $this;
     }
 
     public function getCategory(): ?Category

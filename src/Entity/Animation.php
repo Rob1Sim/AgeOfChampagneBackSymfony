@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\GetAnimationImageController;
 use App\Repository\AnimationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,9 +21,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(operations: [
     new Get(
         normalizationContext: ['groups' => 'get_Animation']
+        // security: "is_granted('ROLE_USER')"
     ),
     new GetCollection(
         normalizationContext: ['groups' => 'get_Animation']
+        // security: "is_granted('ROLE_USER')"
+    ),
+    new Get(
+        uriTemplate: 'animations/{id}/image',
+        controller: GetAnimationImageController::class,
+        // security: "is_granted('ROLE_USER')"
     ),
 ])]
 #[ApiFilter(SearchFilter::class, properties: ['nom' => 'partial'])]

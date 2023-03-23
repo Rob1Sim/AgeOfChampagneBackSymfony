@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api;
+namespace App\Tests\Api\Carte;
 
 use App\Entity\Carte;
 use App\Factory\CarteFactory;
