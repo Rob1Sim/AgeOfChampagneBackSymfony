@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Api;
+namespace App\Tests\Api\Partenaire;
 
 use App\Entity\Partenaire;
 use App\Factory\AnimationFactory;
