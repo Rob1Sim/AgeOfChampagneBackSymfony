@@ -56,4 +56,19 @@ class VigneronGetCest
         $I->seeResponseIsAnEntity(Vigneron::class, '/api/vignerons/1');
         $I->seeResponseIsAnItem(self::expectedProperties(), $dataGet);
     }
+
+    public function getCarteImage(ApiTester $I): void
+    {
+        $produit = ProduitFactory::createOne();
+        $cru = CruFactory::createOne();
+        VigneronFactory::createOne([
+            'nom' => 'test',
+            'cru' => $cru,
+            'produit' => $produit,
+            'contenuImage' => 'noperson.png',
+        ]);
+
+        $I->sendGet('/api/vignerons/1/image');
+        $I->seeResponseCodeIsSuccessful();
+    }
 }
