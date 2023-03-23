@@ -15,6 +15,7 @@ class PartenaireGetCest
             'id' => 'integer',
             'nom' => 'string',
             'prenom' => 'string',
+            'animationID' => 'integer',
         ];
     }
 
@@ -24,6 +25,7 @@ class PartenaireGetCest
         PartenaireFactory::createOne([
             'nom' => 'test',
             'prenom' => 'test',
+            'animation' => $animation,
         ]);
 
         $I->sendGet('/api/partenaires/1');
@@ -33,6 +35,7 @@ class PartenaireGetCest
         $I->seeResponseIsAnItem(self::expectedProperties(), [
             'nom' => 'test',
             'prenom' => 'test',
+            'animationID' => 1,
         ]);
     }
 }
