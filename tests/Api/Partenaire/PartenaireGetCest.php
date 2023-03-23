@@ -38,4 +38,37 @@ class PartenaireGetCest
             'animationID' => 1,
         ]);
     }
+
+    public function getPartenaireCollection(ApiTester $I): void
+    {
+        $animation = AnimationFactory::createOne();
+        PartenaireFactory::createOne([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'animation' => $animation,
+        ]);
+        PartenaireFactory::createOne([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'animation' => $animation,
+        ]);
+        PartenaireFactory::createOne([
+            'nom' => 'test',
+            'prenom' => 'test',
+            'animation' => $animation,
+        ]);
+
+        $I->sendGet('/api/partenaires');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsACollection(Partenaire::class, '/api/partenaires', [
+            'hydra:member' => 'array',
+            'hydra:totalItems' => 'integer',
+        ]);
+        $jsonResponse = $I->grabJsonResponse();
+        $I->assertSame(3, $jsonResponse['hydra:totalItems']);
+        $I->assertCount(3, $jsonResponse['hydra:member']);
+    }
 }
