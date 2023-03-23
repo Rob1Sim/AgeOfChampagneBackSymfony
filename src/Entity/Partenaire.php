@@ -116,4 +116,10 @@ class Partenaire
 
         return $this;
     }
+
+    #[Groups('get_partenaire')]
+    public function getAnimationID(): int
+    {
+        return $this->animation->getId();
+    }
 }
