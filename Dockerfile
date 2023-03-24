@@ -34,3 +34,10 @@ RUN set -eux; \
     apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
     \
     apk del .build-deps
+    
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
+COPY docker/php/conf.d/prod.ini $PHP_INI_DIR/api.ini
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
