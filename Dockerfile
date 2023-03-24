@@ -1,7 +1,7 @@
 ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.18.0
 
-FROM php:8.1-fpm-alpine AS contacts_php
+FROM php:8.1-fpm-alpine AS sae4_php
 ARG APCU_VERSION=5.1.19
 RUN set -eux; \
     apk add --no-cache --virtual .build-deps \
@@ -72,4 +72,25 @@ COPY templates ./templates
 
 RUN find config migrations public src templates -type d -exec chmod a+rx {} \;
 RUN find config migrations public src templates -type f -exec chmod a+r {} \;
+
+RUN set -eux; \
+mkdir -p var/cache var/log; \
+composer dump-autoload --classmap-authoritative --no-dev; \
+composer run-script --no-dev post-install-cmd; \
+chmod +x bin/console; sync
+
+VOLUME ["/srv/api/var"]
+ENTRYPOINT ["docker/php/docker-entrypoint.sh"]
+
+COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN find /usr/local/bin/docker-entrypoint -type f -exec chmod a+rx {} \;
+
+ENTRYPOINT ["docker-entrypoint"]
+CMD ["php-fpm"]
+
+FROM nginx:$NGINX_VERSION-alpine AS sae4_nginx
+COPY docker/nginx/conf.d /etc/nginx/conf.d
+
+WORKDIR /srv/api/public
+COPY --from=sae4_php /srv/api/public .
 
