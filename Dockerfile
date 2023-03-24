@@ -41,3 +41,10 @@ COPY docker/php/conf.d/prod.ini $PHP_INI_DIR/api.ini
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
+RUN set -eux; \
+composer global config --no-plugins allow-plugins.symfony/flex true; \
+composer global require "symfony/flex" --prefer-dist --no-progress --classmap-authoritative; \
+composer clear-cache
+
+ENV PATH="${PATH}:/root/.composer/vendor/bin"
+
