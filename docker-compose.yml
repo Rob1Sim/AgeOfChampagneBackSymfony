@@ -13,6 +13,19 @@ services:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: sae4
 
+  php: 
+    build: 
+        context: ./
+        target: sae4_php
+    depends_on: 
+      - db
+    environment: 
+      - PHP_INI_DIR=/usr/local/etc/php
+    volumes:
+      - ./:/srv/api:rw
+      - ./docker/php/conf.d/dev.ini:/usr/local/etc/php/api.ini:rw
+
+
 volumes: 
   data:
 
