@@ -80,7 +80,6 @@ composer run-script --no-dev post-install-cmd; \
 chmod +x bin/console; sync
 
 VOLUME ["/srv/api/var"]
-ENTRYPOINT ["docker/php/docker-entrypoint.sh"]
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN find /usr/local/bin/docker-entrypoint -type f -exec chmod a+rx {} \;
@@ -89,7 +88,7 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 FROM nginx:$NGINX_VERSION-alpine AS sae4_nginx
-COPY docker/nginx/conf.d /etc/nginx/conf.d
+COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /srv/api/public
 COPY --from=sae4_php /srv/api/public .
