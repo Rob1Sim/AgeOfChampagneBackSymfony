@@ -48,3 +48,18 @@ composer clear-cache
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
+WORKDIR /srv/api
+ARG APP_ENV=prod
+
+COPY composer.json .
+COPY composer.lock .
+COPY symfony.lock .
+
+RUN set -eux; \
+    composer install --prefer-dist --no-dev --no-scripts --no-progress; \
+    composer clear-cache
+
+COPY .env .
+
+RUN composer dump-env prod
+
