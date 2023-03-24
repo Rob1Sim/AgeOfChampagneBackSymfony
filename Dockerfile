@@ -63,3 +63,13 @@ COPY .env .
 
 RUN composer dump-env prod
 
+COPY bin ./bin
+COPY config ./config
+COPY migrations ./migrations
+COPY public ./public
+COPY src ./src
+COPY templates ./templates
+
+RUN find config migrations public src templates -type d -exec chmod a+rx {} \;
+RUN find config migrations public src templates -type f -exec chmod a+r {} \;
+
