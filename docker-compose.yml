@@ -25,6 +25,17 @@ services:
       - ./:/srv/api:rw
       - ./docker/php/conf.d/dev.ini:/usr/local/etc/php/api.ini:rw
 
+  api:
+    build: 
+      context: ./
+      target: sae4_nginx
+    depends_on:
+      - php
+    volumes:
+      - ./public:/srv/api/public:ro
+    ports:
+      - "8082:80"    
+
 
 volumes: 
   data:
