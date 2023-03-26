@@ -71,4 +71,43 @@ class ComptePutCest
         $I->seeResponseIsAnEntity(Compte::class, '/api/comptes/1');
         $I->seeResponseIsAnItem(self::expectedProperties(), $dataPut);
     }
+
+    public function authenticatedUserCanChangeHisPassword(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $dataInit = [
+            'login' => 'user1',
+            'password' => 'password',
+        ];
+
+        $user = CompteFactory::createOne($dataInit)->object();
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $dataPut = ['password' => 'new password'];
+        $I->sendPut('/api/users/1', $dataPut);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsAnEntity(Compte::class, '/api/comptes/1');
+        $I->seeResponseIsAnItem(self::expectedProperties());
+
+        // 2. 'Act'
+        $I->amOnPage('/logout');
+        // Don't check response code since homepage is not configured (404)
+        // $I->seeResponseCodeIsSuccessful();
+        $I->amOnPage('/login');
+        $I->seeResponseCodeIsSuccessful();
+        $I->submitForm(
+            'form',
+            ['login' => 'user1', 'password' => 'new password'],
+            'Authentification'
+        );
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeInCurrentUrl('/api/docs');
+    }
+
 }
