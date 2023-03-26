@@ -33,4 +33,19 @@ class ComptePutCest
         // 3. 'Assert'
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
+
+    public function authenticatedUserForbiddenToPutOtherUser(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $user = CompteFactory::createOne()->object();
+        CompteFactory::createOne();
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $I->sendPut('/api/compte/2');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
+    }
+
 }
