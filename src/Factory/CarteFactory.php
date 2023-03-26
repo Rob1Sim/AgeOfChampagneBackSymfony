@@ -47,8 +47,8 @@ final class CarteFactory extends ModelFactory
             'nom' => self::faker()->userName(),
             'type' => self::faker()->streetName(),
             'region' => self::faker()->name(),
-            'latitude' => self::faker()->randomFloat(),
-            'longitude' => self::faker()->randomFloat(),
+            'latitude' => self::faker()->latitude(),
+            'longitude' => self::faker()->longitude(),
             'superficie' => self::faker()->randomFloat(),
             'contenuImage' => $tableauImg[array_rand($tableauImg)],
         ];
