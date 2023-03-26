@@ -32,4 +32,18 @@ class ComptePatchCest
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
 
+    public function authenticatedUserForbiddenToPatchOtherUser(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $user = CompteFactory::createOne()->object();
+        CompteFactory::createOne();
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $I->sendPatch('/api/comptes/2');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
+    }
+
 }
