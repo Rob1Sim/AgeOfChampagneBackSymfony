@@ -37,6 +37,26 @@ class CompteGetCest
         $I->seeResponseIsAnEntity(Compte::class, '/api/comptes/1');
         $I->seeResponseIsAnItem(self::expectedProperties(), $data);
     }
-    
+
+    public function authenticatedUserGetSimpleUserElementForOthers(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $data = [
+            'login' => 'user1',
+            'email' => 'user-1@example.fr',
+        ];
+        $user = CompteFactory::createOne()->object();
+        CompteFactory::createOne($data);
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $I->sendGet('/api/comptes/2');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsAnEntity(CompteFactory::class, '/api/comptes/2');
+        $I->seeResponseIsAnItem(self::expectedProperties(), $data);
+    }
 
 }
