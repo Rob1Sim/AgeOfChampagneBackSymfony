@@ -5,6 +5,8 @@ namespace App\Tests\Api\Compte;
 use App\Entity\Compte;
 use App\Factory\CompteFactory;
 use App\Tests\ApiTester;
+use Codeception\Attribute\DataProvider;
+use Codeception\Example;
 use Codeception\Util\HttpCode;
 
 class ComptePatchCest
@@ -105,7 +107,29 @@ class ComptePatchCest
         $I->seeInCurrentUrl('/api/docs');
     }
 
+    protected function invalidDataLeadsToUnprocessableEntityProvider(): array
+    {
+        return [
+            ['property' => 'login', 'value' => '<&">'],
+            ['property' => 'email', 'value' => 'badmail'],
+        ];
+    }
 
+    #[DataProvider('invalidDataLeadsToUnprocessableEntityProvider')]
+    public function invalidDataLeadsToUnprocessableEntity(ApiTester $I, Example $example): void
+    {
+        // 1. 'Arrange'
+        $user = CompteFactory::createOne()->object();
+        $I->amLoggedInAs($user);
 
+        // 2. 'Act'
+        $dataPut = [
+            $example['property'] => $example['value'],
+        ];
+        $I->sendPut('/api/comptes/1', $dataPut);
 
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(422);
+        $I->seeResponseIsJson();
+    }
 }
