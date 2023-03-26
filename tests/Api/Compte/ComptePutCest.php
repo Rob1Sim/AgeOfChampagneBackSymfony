@@ -5,8 +5,6 @@ namespace App\Tests\Api\Compte;
 use App\Entity\Compte;
 use App\Factory\CompteFactory;
 use App\Tests\ApiTester;
-use Codeception\Attribute\DataProvider;
-use Codeception\Example;
 use Codeception\Util\HttpCode;
 
 class ComptePutCest
@@ -42,10 +40,35 @@ class ComptePutCest
         $I->amLoggedInAs($user);
 
         // 2. 'Act'
-        $I->sendPut('/api/compte/2');
+        $I->sendPut('/api/comptes/2');
 
         // 3. 'Assert'
         $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
     }
 
+    public function authenticatedUserCanPutOwnData(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $dataInit = [
+            'login' => 'user1',
+            'password' => 'password',
+        ];
+
+        $user = CompteFactory::createOne($dataInit)->object();
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $dataPut = [
+            'login' => 'user2',
+            'email' => 'user-2@example.fr',
+        ];
+
+        $I->sendPut('/api/comptes/1', $dataPut);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsAnEntity(Compte::class, '/api/comptes/1');
+        $I->seeResponseIsAnItem(self::expectedProperties(), $dataPut);
+    }
 }
