@@ -15,9 +15,6 @@ class ComptePatchCest
     {
         return [
             'id' => 'integer',
-            'email' => 'string',
-            'roles' => 'string',
-            'date_naiss' => 'date',
             'login' => 'string',
         ];
     }
@@ -53,7 +50,6 @@ class ComptePatchCest
         // 1. 'Arrange'
         $dataInit = [
             'login' => 'user1',
-            'email' => 'user-1@example.fr',
         ];
 
         $user = CompteFactory::createOne($dataInit)->object();
@@ -62,7 +58,6 @@ class ComptePatchCest
         // 2. 'Act'
         $dataPatch = [
             'login' => 'user2',
-            'email' => 'user-2@example.fr',
         ];
         $I->sendPatch('/api/comptes/1', $dataPatch);
 
