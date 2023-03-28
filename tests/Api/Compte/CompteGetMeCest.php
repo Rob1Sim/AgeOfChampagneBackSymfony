@@ -14,15 +14,15 @@ class CompteGetMeCest
         return [
             'id' => 'integer',
             'email' => 'string',
-            'roles' => 'string',
-            'date_naiss' => 'date',
+            'dateNaiss' => 'string',
             'login' => 'string',
+            'cartes' => 'array',
         ];
     }
 
     public function anonymousMeIsUnauthorized(ApiTester $I): void
     {
-        // 1. 'Arrange'
+                // 1. 'Arrange'
         CompteFactory::createOne();
 
         // 2. 'Act'
@@ -48,5 +48,4 @@ class CompteGetMeCest
         $I->seeResponseIsAnEntity(Compte::class, '/api/me');
         $I->seeResponseIsAnItem(self::expectedProperties(), ['login' => $user->getLogin()]);
     }
-
 }
