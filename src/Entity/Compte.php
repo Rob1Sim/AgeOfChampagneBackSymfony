@@ -50,24 +50,25 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('ROLE_USER')",
             securityMessage: "Vous n'êtes pas connecté"
         ),
-    ]
+
+    ],
+    normalizationContext: ['groups' => ['get_User']],
 )]
 class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['get_User'])]
+    #[Groups(['get_User', 'get_Me'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email]
-    #[Groups(['get_User'])]
+    #[Groups(['set_User', 'get_Me'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups(['get_User'])]
     private array $roles = [];
 
     /**
@@ -79,7 +80,7 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank]
-    #[Groups(['set_User', 'get_User'])]
+    #[Groups(['set_User', 'get_Me'])]
     private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 50)]
@@ -88,11 +89,10 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $login = null;
 
     #[ORM\Column(type: 'boolean')]
-    #[Groups(['get_User'])]
     private bool $is_verified = false;
 
     #[ORM\ManyToMany(targetEntity: Carte::class, mappedBy: 'compte')]
-    #[Groups(['get_User'])]
+    #[Groups(['get_Me'])]
     private Collection $cartes;
 
     public function __construct()

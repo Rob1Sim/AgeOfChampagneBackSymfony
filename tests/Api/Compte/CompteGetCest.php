@@ -12,9 +12,6 @@ class CompteGetCest
     {
         return [
             'id' => 'integer',
-            'email' => 'string',
-            'roles' => 'string',
-            'date_naiss' => 'date',
             'login' => 'string',
         ];
     }
@@ -24,7 +21,6 @@ class CompteGetCest
         // 1. 'Arrange'
         $data = [
             'login' => 'user1',
-            'email' => 'user-1@example.fr',
         ];
         CompteFactory::createOne($data);
 
@@ -43,7 +39,6 @@ class CompteGetCest
         // 1. 'Arrange'
         $data = [
             'login' => 'user1',
-            'email' => 'user-1@example.fr',
         ];
         $user = CompteFactory::createOne()->object();
         CompteFactory::createOne($data);
@@ -55,8 +50,7 @@ class CompteGetCest
         // 3. 'Assert'
         $I->seeResponseCodeIsSuccessful();
         $I->seeResponseIsJson();
-        $I->seeResponseIsAnEntity(CompteFactory::class, '/api/comptes/2');
+        $I->seeResponseIsAnEntity(Compte::class, '/api/comptes/2');
         $I->seeResponseIsAnItem(self::expectedProperties(), $data);
     }
-
 }
