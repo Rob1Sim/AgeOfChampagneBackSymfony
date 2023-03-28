@@ -20,7 +20,7 @@ class CarteGetCest
             'latitude' => 'float',
             'longitude' => 'float',
             'superficie' => 'float',
-            'cru_r' => 'array',
+            'cru_r' => 'string',
             'contenuImage' => 'string',
             'vigneronID' => 'integer',
         ];
