@@ -80,12 +80,17 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Assert\NotBlank]
-    #[Groups(['set_User', 'get_Me'])]
+    #[Groups(['get_Me'])]
     private ?\DateTimeInterface $dateNaiss = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
     #[Groups(['set_User', 'get_User'])]
+    #[Assert\Regex(
+        pattern: '/[<>&"]/',
+        message: 'Your login cannot use this character : <>&"',
+        match: false
+    )]
     private ?string $login = null;
 
     #[ORM\Column(type: 'boolean')]
