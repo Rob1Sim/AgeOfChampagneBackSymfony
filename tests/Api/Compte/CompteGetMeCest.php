@@ -22,7 +22,7 @@ class CompteGetMeCest
 
     public function anonymousMeIsUnauthorized(ApiTester $I): void
     {
-                // 1. 'Arrange'
+        // 1. 'Arrange'
         CompteFactory::createOne();
 
         // 2. 'Act'
