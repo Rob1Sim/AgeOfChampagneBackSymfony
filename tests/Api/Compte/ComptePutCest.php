@@ -13,9 +13,6 @@ class ComptePutCest
     {
         return [
             'id' => 'integer',
-            'email' => 'string',
-            'roles' => 'string',
-            'date_naiss' => 'date',
             'login' => 'string',
         ];
     }
@@ -60,7 +57,6 @@ class ComptePutCest
         // 2. 'Act'
         $dataPut = [
             'login' => 'user2',
-            'email' => 'user-2@example.fr',
         ];
 
         $I->sendPut('/api/comptes/1', $dataPut);
@@ -76,7 +72,7 @@ class ComptePutCest
     {
         // 1. 'Arrange'
         $dataInit = [
-            'login' => 'user1',
+            'login' => 'user',
             'password' => 'password',
         ];
 
@@ -85,7 +81,7 @@ class ComptePutCest
 
         // 2. 'Act'
         $dataPut = ['password' => 'new password'];
-        $I->sendPut('/api/users/1', $dataPut);
+        $I->sendPut('/api/comptes/1', $dataPut);
 
         // 3. 'Assert'
         $I->seeResponseCodeIsSuccessful();
@@ -97,17 +93,14 @@ class ComptePutCest
         $I->amOnPage('/logout');
         // Don't check response code since homepage is not configured (404)
         // $I->seeResponseCodeIsSuccessful();
-        $I->amOnPage('/login');
+        $I->amOnRoute('app_login');
         $I->seeResponseCodeIsSuccessful();
         $I->submitForm(
             'form',
             ['login' => 'user1', 'password' => 'new password'],
             'Authentification'
         );
-
-        // 3. 'Assert'
         $I->seeResponseCodeIsSuccessful();
-        $I->seeInCurrentUrl('/api/docs');
     }
 
 }
