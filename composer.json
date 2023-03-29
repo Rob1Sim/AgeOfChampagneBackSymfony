@@ -90,12 +90,12 @@
         "fix:cs": "php vendor/bin/php-cs-fixer fix",
         "test:codeception":[
             "php vendor/bin/codecept clean",
-            "cross-env APP_ENV=test php bin/console doctrine:database:drop --force",
-            "cross-env APP_ENV=test php bin/console doctrine:database:create",
-            "cross-env APP_ENV=test php bin/console doctrine:schema:create --quiet",
-            "cross-env SYMFONY_DEPRECATIONS_HELPER=weak php vendor/bin/codecept run --no-artifacts"
+            "APP_ENV=test php bin/console doctrine:database:drop --force",
+            "APP_ENV=test php bin/console doctrine:database:create",
+            "APP_ENV=test php bin/console doctrine:schema:create --quiet",
+            "SYMFONY_DEPRECATIONS_HELPER=weak php vendor/bin/codecept run --no-artifacts"
         ],
-        "test": ["@test:cs","@test:codecept"],
+        "test": ["@test:cs","@test:codeception"],
         "db": [
             "php bin/console doctrine:database:drop --force --if-exists",
             "php bin/console doctrine:database:create",
