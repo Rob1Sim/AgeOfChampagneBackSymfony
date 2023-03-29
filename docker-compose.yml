@@ -14,8 +14,8 @@ services:
       MYSQL_DATABASE: sae4
   php: 
     build: 
-        context: ./
-        target: sae4_php
+      context: ./
+      target: sae4_php
     depends_on: 
       - db
     environment: 
