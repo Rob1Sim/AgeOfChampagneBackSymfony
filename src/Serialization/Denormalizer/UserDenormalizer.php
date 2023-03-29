@@ -46,6 +46,4 @@ class UserDenormalizer implements ContextAwareDenormalizerInterface, Denormalize
 
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
-
-
 }

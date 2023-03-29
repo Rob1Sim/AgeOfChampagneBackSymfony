@@ -6,7 +6,6 @@ use App\Entity\Vigneron;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class GetAvatarVigneronController extends AbstractController
 {
     public function __invoke(Vigneron $data): Response
@@ -20,7 +19,5 @@ class GetAvatarVigneronController extends AbstractController
             Response::HTTP_OK,
             ['Content-Type' => 'image/png']
         );
-
     }
-
 }
