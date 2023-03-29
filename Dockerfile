@@ -2,8 +2,14 @@ ARG PHP_VERSION=8.1
 ARG NGINX_VERSION=1.18.0
 
 FROM php:8.1-fpm-alpine AS sae4_php
-ARG APCU_VERSION=5.1.19
 RUN set -eux; \
+    apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+        icu-dev \
+        libzip-dev \
+    ; 
+ARG APCU_VERSION=5.1.19
+    RUN set -eux; \
     apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
         icu-dev \
@@ -34,6 +40,7 @@ RUN set -eux; \
     apk add --no-cache --virtual .api-phpexts-rundeps $runDeps; \
     \
     apk del .build-deps
+
     
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN ln -s $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
