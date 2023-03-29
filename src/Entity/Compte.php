@@ -50,7 +50,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: "is_granted('ROLE_USER')",
             securityMessage: "Vous n'êtes pas connecté"
         ),
-
     ],
     normalizationContext: ['groups' => ['get_User']],
 )]
@@ -69,6 +68,7 @@ class Compte implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Groups(['get_Me', 'get_User'])]
     private array $roles = [];
 
     /**
