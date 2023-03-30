@@ -66,16 +66,16 @@ RUN set -eux; \
     composer install --prefer-dist --no-dev --no-scripts --no-progress; \
     composer clear-cache
 
-COPY .env .
+COPY .env .env
 
 RUN composer dump-env prod
 
-COPY bin ./bin
-COPY config ./config
-COPY migrations ./migrations
-COPY public ./public
-COPY src ./src
-COPY templates ./templates
+COPY bin/ ./bin
+COPY config/ ./config
+COPY migrations/ ./migrations
+COPY public/ ./public
+COPY src/ ./src
+COPY templates/ ./templates
 
 RUN find config migrations public src templates -type d -exec chmod a+rx {} \;
 RUN find config migrations public src templates -type f -exec chmod a+r {} \;
@@ -86,7 +86,7 @@ composer dump-autoload --classmap-authoritative --no-dev; \
 composer run-script --no-dev post-install-cmd; \
 chmod +x bin/console; sync
 
-VOLUME ["/srv/api/var"]
+VOLUME /srv/api/var
 
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN find /usr/local/bin/docker-entrypoint -type f -exec chmod a+rx {} \;
@@ -98,5 +98,5 @@ FROM nginx:$NGINX_VERSION-alpine AS sae4_nginx
 COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /srv/api/public
-COPY --from=sae4_php /srv/api/public .
+COPY --from=sae4_php /srv/api/public/ /srv/api/public/
 
