@@ -18,17 +18,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: CarteRepository::class)]
 #[ApiResource(operations: [
     new Get(
-        normalizationContext: ['groups' => 'get_carte']
-        // security: "is_granted('ROLE_USER')"
+        normalizationContext: ['groups' => 'get_carte'],
+        security: "is_granted('ROLE_USER')",
     ),
     new GetCollection(
-        normalizationContext: ['groups' => 'get_carte']
-        // security: "is_granted('ROLE_USER')"
+        normalizationContext: ['groups' => 'get_carte'],
+        security: "is_granted('ROLE_USER')",
     ),
     new Get(
         uriTemplate: 'cartes/{id}/image',
         controller: GetCarteImageController::class,
-        // security: "is_granted('ROLE_USER')"
+        security: "is_granted('ROLE_USER')",
     ),
 ])]
 #[ApiFilter(SearchFilter::class, properties: ['nom' => 'partial'])]

@@ -109,5 +109,4 @@ class ComptePutCest
         $I->seeResponseCodeIsSuccessful();
         $I->seeInCurrentUrl('/api/docs');
     }
-
 }

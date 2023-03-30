@@ -4,6 +4,7 @@ namespace App\Tests\Api\Carte;
 
 use App\Entity\Carte;
 use App\Factory\CarteFactory;
+use App\Factory\CompteFactory;
 use App\Factory\CruFactory;
 use App\Factory\VigneronFactory;
 use App\Tests\ApiTester;
@@ -20,7 +21,7 @@ class CarteGetCest
             'latitude' => 'float',
             'longitude' => 'float',
             'superficie' => 'float',
-            'cru_r' => 'array',
+            'cru_r' => 'string',
             'contenuImage' => 'string',
             'vigneronID' => 'integer',
         ];
@@ -28,6 +29,13 @@ class CarteGetCest
 
     public function getCarteByID(ApiTester $I): void
     {
+        $data = [
+            'login' => 'user1',
+        ];
+        $user = CompteFactory::createOne()->object();
+        CompteFactory::createOne($data);
+        $I->amLoggedInAs($user);
+
         $vignerons = VigneronFactory::createOne();
         $cru = CruFactory::createOne();
         CarteFactory::createOne([
@@ -59,6 +67,13 @@ class CarteGetCest
 
     public function getCarteCollection(ApiTester $I): void
     {
+        $data = [
+            'login' => 'user1',
+        ];
+        $user = CompteFactory::createOne()->object();
+        CompteFactory::createOne($data);
+        $I->amLoggedInAs($user);
+
         $vignerons = VigneronFactory::createOne();
         $cru = CruFactory::createOne();
         CarteFactory::createOne([
@@ -108,6 +123,13 @@ class CarteGetCest
 
     public function getCarteImage(ApiTester $I): void
     {
+        $data = [
+            'login' => 'user1',
+        ];
+        $user = CompteFactory::createOne()->object();
+        CompteFactory::createOne($data);
+        $I->amLoggedInAs($user);
+
         $cru = CruFactory::createOne();
         CarteFactory::createOne([
             'nom' => 'test',
