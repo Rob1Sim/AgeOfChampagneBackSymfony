@@ -94,7 +94,7 @@ RUN find /usr/local/bin/docker-entrypoint -type f -exec chmod a+rx {} \;
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
-FROM nginx:$NGINX_VERSION-alpine AS sae4_nginx
+FROM nginx:${NGINX_VERSION}-alpine AS sae4_nginx
 COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /srv/api/public
