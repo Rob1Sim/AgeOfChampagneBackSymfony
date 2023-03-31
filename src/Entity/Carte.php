@@ -32,7 +32,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ),
 ])]
 #[ApiFilter(SearchFilter::class, properties: ['nom' => 'partial'])]
-#[ApiFilter(OrderFilter::class, properties: ['nom' => 'ASC',  'type' => 'ASC'], arguments: ['orderParameterName' => 'order'])]
+#[ApiFilter(OrderFilter::class, properties: ['nom' => 'ASC', 'type' => 'ASC', 'region' => 'ASC'], arguments: ['orderParameterName' => 'order'])]
 class Carte
 {
     #[ORM\Id]
