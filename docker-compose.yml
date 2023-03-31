@@ -1,21 +1,51 @@
-version: '3'
+version: '3.4'
 
 services:
-###> doctrine/doctrine-bundle ###
-  database:
-    image: postgres:${POSTGRES_VERSION:-14}-alpine
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+  db:
+    image: mariadb
     volumes:
-      - db-data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - data:/var/lib/mysql:rw
+    ports:
+      - "6033:3306"
+    environment:
+      MYSQL_USER: breb0007
+      MYSQL_PASSWORD: Azerty01
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: sae4
+  php: 
+    build: 
+      context: ./
+      target: sae4_php
+    depends_on: 
+      - db
+    environment: 
+      - PHP_INI_DIR=/usr/local/etc/php
+    volumes:
+      - ./:/srv/api:rw
+      - ./docker/php/conf.d/dev.ini:/usr/local/etc/php/api.ini:rw
+  api:
+    build: 
+      context: ./
+      target: sae4_nginx
+    depends_on:
+      - php
+    volumes:
+      - ./public:/srv/api/public:ro
+    ports:
+      - "8082:80"    
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma
+    links:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: always
+    ports:
+      - 8081:80
 
-volumes:
-###> doctrine/doctrine-bundle ###
-  db-data:
-###< doctrine/doctrine-bundle ###
+volumes: 
+  data:
+
