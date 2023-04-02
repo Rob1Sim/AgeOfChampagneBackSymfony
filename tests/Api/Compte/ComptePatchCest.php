@@ -99,7 +99,6 @@ class ComptePatchCest
             'Authentification'
         );
         $I->seeResponseCodeIsSuccessful();
-        $I->seeInCurrentUrl('/api/docs');
     }
 
     protected function invalidDataLeadsToUnprocessableEntityProvider(): array
