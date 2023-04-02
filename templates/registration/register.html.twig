@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="gauche">
+        <div class="header">
+            <img src="{{ asset('image/OHG.png') }}" width="50" height="50"></div>
+        <div class="formu">
+            {% for flash_error in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+            {% endfor %}
+            <h1 class="h3-mb-3-font-weight-normal">Bienvenue sur Age Of Champagne</h1>
+            <h2>Le site officiel du jeu de plateau</h2>
+            {{ form_start(registrationForm) }}
+            <div class="register-d">
+
+                <div class="gotham-text register-txt">{{ form_row(registrationForm.login, {
+                        label: 'Identifiant'
+                    }) }}</div>
+                <div class="gotham-text register-txt">{{ form_row(registrationForm.email, {
+                        label: 'Adresse Mail'
+                    }) }}</div>
+                <div class="gotham-text register-txt"> {{ form_row(registrationForm.date_naiss, {
+                        label: 'Date de naissance'
+                    }) }}</div>
+                <div class="gotham-text register-txt">{{ form_row(registrationForm.plainPassword, {
+                        label: 'Mot de passe'
+                    }) }}</div>
+                <div class="gotham-text">{{ form_row(registrationForm.agreeTerms, {
+                        label: "Acceptez les conditions d'utilisations"
+                    }) }}</div>
+                <button type="submit" class="btn_btn-lg_btn-primaryRegister">S'inscrire</button>
+            </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+    <div class="droite"><div class="AOC"></div> </div>
+{% endblock %}
