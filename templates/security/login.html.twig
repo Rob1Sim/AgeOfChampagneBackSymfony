@@ -15,9 +15,9 @@
 
             <h1 class="h3-mb-3-font-weight-normal">Bienvenue sur Age Of Champagne</h1>
             <h2>Le site officiel du jeu de plateau</h2>
-            <label class="ecriture_avenir-email"  for="inputEmail">Email :</label>
-            <input placeholder="Email" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-            <label class="ecriture_avenir" for="inputPassword">Password :</label>
+            <label class="ecriture_avenir-email"  for="inputEmail">Identifiant :</label>
+            <input placeholder="Identifiant" type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control" autocomplete="login" required autofocus>
+            <label class="ecriture_avenir" for="inputPassword">Mot de passe :</label>
             <input placeholder="Mot de passe" type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
             <input type="hidden" name="_csrf_token"
@@ -39,7 +39,7 @@
             <button class="btn_btn-lg_btn-primary" type="submit">
                 Connexion
             </button>
-            <h2 class="inscription">Vous n'avez pas de compte?</h2><h2 id="inscription">Inscrivez-vous!</h2>
+            <h2 class="inscription">Vous n'avez pas de compte?</h2><h2 id="inscription"><a href="{{ path("app_register") }}">Inscrivez-vous!</a></h2>
 
         </form>
 
