@@ -13,6 +13,7 @@ class CompteGetCest
         return [
             'id' => 'integer',
             'login' => 'string',
+            'roles' => 'array',
         ];
     }
 
