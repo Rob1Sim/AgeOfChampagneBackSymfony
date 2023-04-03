@@ -17,6 +17,7 @@ class CompteGetMeCest
             'dateNaiss' => 'string',
             'login' => 'string',
             'cartes' => 'array',
+            'roles' => 'array',
         ];
     }
 
