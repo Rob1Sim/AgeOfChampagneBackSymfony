@@ -14,6 +14,7 @@ class ComptePutCest
         return [
             'id' => 'integer',
             'login' => 'string',
+            'roles' => 'array',
         ];
     }
 
