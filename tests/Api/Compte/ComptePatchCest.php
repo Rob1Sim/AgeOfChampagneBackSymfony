@@ -16,6 +16,7 @@ class ComptePatchCest
         return [
             'id' => 'integer',
             'login' => 'string',
+            'roles' => 'array',
         ];
     }
 
@@ -72,9 +73,10 @@ class ComptePatchCest
     {
         // 1. 'Arrange'
         $dataInit = [
-            'login' => 'user1',
+            'login' => 'user',
             'password' => 'password',
         ];
+
         $user = CompteFactory::createOne($dataInit)->object();
         $I->amLoggedInAs($user);
 
@@ -88,10 +90,11 @@ class ComptePatchCest
         $I->seeResponseIsAnEntity(Compte::class, '/api/comptes/1');
         $I->seeResponseIsAnItem(self::expectedProperties());
 
+        // 2. 'Act'
         $I->amOnPage('/logout');
         // Don't check response code since homepage is not configured (404)
         // $I->seeResponseCodeIsSuccessful();
-        $I->amOnPage('/login');
+        $I->amOnRoute('app_login');
         $I->seeResponseCodeIsSuccessful();
         $I->submitForm(
             'form',
