@@ -44,25 +44,15 @@ La ligne de configuration de la bd se présente sous cette forme :
 
 ## Les utilisateurs de connexions factices :
 - Admin :
-    - email : *root@example.fr*
+    - login : *admin*
     - password : *test*
 - User :
-    - email : *user-lambda@example.fr*
+    - login : *UserLambda*
     - password : *test*
 - User premium :
-    - email : *user-premium@example.fr*
+    - login : *UserPremium*
     - password : *test*
-
-## Serveur de Production :  
-Pour voir le site en production cliquer sur : [Lien vers le serveur ](http://10.31.11.97)
-### Les utilisateurs de connexions en production :
-- Admin :
-  - email : *admin@aoc.fr*
-  - password : *admin123*
-- Utilisateur :
-  - *george.you@example.fr*
-  - test123
-
+    
 ## Docker :
 Le site est disponible sur une image docker : 
 ### Base de donnée :
