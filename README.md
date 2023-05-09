@@ -1,6 +1,10 @@
 # Age Of Champagne ( AOC ) 
 ## Robin Simonneau, Erwann Maton, Noa Brébant, Roman Szczepaniak, Dylan Huckel  
+Le projet Age of Champagne est un projet de groupe réaliser lors de ma 2ème année de BUT informatique, à l'IUT de Reims.
+Le projet consiste à être une extension du jeu de plateau Age Of Champagne, permettant aux joueurs de scanner les cartes du jeu à fin de récupérer des informations sur celle-ci.
 
+La deuxième version de ce projets consiste en la division du projets en deux parties : Le front avec React et le back avec un API Symfony.
+Pour plus d'informations sur le jeu : Cliquez ici
 ## Installation et configuration
 Ce projet utlise le framework *Symfony* :
 - Pour récupérer les paquets du projets utilisez : 
